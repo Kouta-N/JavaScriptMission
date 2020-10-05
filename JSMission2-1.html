@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang = "ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>FizzBuzz byDOM</title>
+</head>
+
+<body>
+
+  <h1>FizzBuzz問題</h1>
+
+    <table>
+      <tbody>
+        
+        <tr>
+          <td>FizzNum:</td>
+          <td><input type = "input" placeholder = "整数値を入力してください" id = "Fizz" size = "22" maxlength = "100" ></td><br></td>
+        </tr>
+        
+        <tr>
+          <td>BuzzNum:</td>
+          <td><input type = "input" placeholder = "整数値を入力してください" id = "Buzz" size = "22" maxlength = "100" ></td><br></td>
+        </tr>
+
+        <tr>
+        <td> <input type = "button" class = "bu" value = "実行"  onclick = "ClickBtn()"> </td>
+        </tr>
+
+      </tbody>
+    </table>
+
+      
+
+    <h4>【出力】</h4>
+    <div id = "out"></div>
+
+  <script>
+    'use strict';
+
+    function ClickBtn(){
+
+      const start = 1; //FizzBuzz問題をどこから表示するかを表す定数
+      const end = 100; //FizzBuzz問題をどこまで表示するかを表す定数
+
+      const FizzNum = document.getElementById("Fizz").value;
+      const BuzzNum = document.getElementById("Buzz").value;
+      
+      //innerHTML 出力要素を定義//
+      const erNan = document.getElementById("out");
+      const erFloat = document.getElementById("out");
+      const erString = document.getElementById("out");
+      const out_p = document.createElement("p");
+
+      //innerHTML 初期化作業//
+      erNan.innerHTML = "";
+      erFloat.innerHTML = "";
+      erString.innerHTML = ""; 
+      out_p.innerHTML = "";
+
+      //出力作業を関数化//
+      function output_child(text){
+        out_p.appendChild(text);
+        out.appendChild(out_p);
+        out_p.appendChild(document.createElement( 'br' ) );
+        out.appendChild(out_p);
+      }
+
+      if (FizzNum === "" || BuzzNum === ""){
+        erNan.innerHTML = "整数値を入力してください";
+      }
+
+      if (FizzNum.match(/^[0-9]+\.[0-9]+$/) || BuzzNum.match(/^[0-9]+\.[0-9]+$/)) {
+          erFloat.innerHTML = "整数値を入力してください";
+      }
+
+      if (isNaN( Number(FizzNum) ) || isNaN( Number(BuzzNum) ) ) {
+          erString.innerHTML = "整数値を入力してください"; 
+      }
+
+
+        for (let i = start ; i < end ; i ++){
+
+          if (i % FizzNum === 0 && i % BuzzNum === 0 ){
+            const text = document.createTextNode(`FizzBuzz ${i}`);
+            output_child(text);
+
+          } else if (i % FizzNum === 0) {
+              const text = document.createTextNode(`Fizz ${i}`);
+              output_child(text);
+        
+          } else if (i % BuzzNum === 0) { 
+              const text = document.createTextNode(`Buzz ${i}`);
+              output_child(text);
+          }
+
+        }
+
+    }
+    
+  </script>
+
+
+  <style>
+    table{
+           margin-top: -50px;
+         }
+
+    .in {
+         font-size: 16px;
+         font-weight: normal;
+        }
+
+    .bu {
+         background: linear-gradient(to top, white 0%,grey 340%);
+         font-weight: bold;
+        }
+           
+  </style>
+
+</body>
+</html>
