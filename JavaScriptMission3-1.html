@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang = 'ja'>
+
+<head>
+  <meta charset='UTF-8'>
+  <title>JavaScriptMission3-1</title>
+</head>
+
+<body>
+
+  <h1>ToDoリスト</h1>
+  <form>
+    <input type = 'radio' id = 'all'>すべて
+    <input type = 'radio' id = 'doing'>作業中
+    <input type = 'radio' id = 'fin'>完了
+  </form>
+
+<table>
+  <tbody>
+      <td id = "index">ID</td>
+      <td id = "comment">コメント</td>
+      <td id = "sta">状態</td>
+  </tbody>
+</table>
+
+  <h2>新規タスクの追加</h2>
+
+  <form>
+    <input type = 'text' id = 'new_task'>
+    <input type = 'button' id = 'add' value = '追加'>
+  </form>
+
+<script>
+  
+  let i = 0;//IDの添字
+
+  // IDの出力を関数化
+  function output_id(i){
+    const new_p = document.createElement("td");
+    index.appendChild(new_p);
+    let id_text = document.createTextNode(`${i}`);
+    index.appendChild(id_text);
+  }
+
+  // コメントの出力を関数化
+  function output_comment(){
+    const new_p = document.createElement("td");
+    comment.appendChild(new_p);
+    let comment_text = document.getElementById('new_task').value;
+    comment.appendChild(document.createTextNode(`${comment_text}`));
+  }
+
+  // 状態ボタンの出力を関数化
+  function output_status(){
+    const new_p = document.createElement("td");
+    sta.appendChild(new_p);
+
+    let status_button = document.createElement('button');
+    status_button.innerHTML = '作業中';
+    let status_button_id = document.getElementById('sta');
+    status_button_id.appendChild(status_button);
+    
+    let delete_button = document.createElement('button');
+    delete_button.innerHTML = '削除';
+    let delete_button_id = document.getElementById('sta');
+    delete_button_id.appendChild(delete_button);
+  }
+
+  // タスクの出力処理
+  const onclick =  document.getElementById('add');
+  onclick.addEventListener('click', function (){
+    i++;
+    output_id(i);
+    output_comment();
+    output_status();
+  });
+
+</script>
+
+</body>
+</html>
