@@ -17,9 +17,9 @@
 
 <table>
   <tbody>
-      <td id = "index">ID</td>
-      <td id = "comment">コメント</td>
-      <td id = "sta">状態</td>
+      <td id = 'index'>ID</td>
+      <td id = 'comment'>コメント</td>
+      <td id = 'sta'>状態</td>
   </tbody>
 </table>
 
@@ -30,13 +30,15 @@
     <input type = 'button' id = 'add' value = '追加'>
   </form>
 
+
+
 <script>
   
   let i = 0;//IDの添字
 
   // IDの出力を関数化
   function output_id(i){
-    const new_p = document.createElement("td");
+    const new_p = document.createElement('td');
     index.appendChild(new_p);
     let id_text = document.createTextNode(`${i}`);
     index.appendChild(id_text);
@@ -44,7 +46,7 @@
 
   // コメントの出力を関数化
   function output_comment(){
-    const new_p = document.createElement("td");
+    const new_p = document.createElement('td');
     comment.appendChild(new_p);
     let comment_text = document.getElementById('new_task').value;
     comment.appendChild(document.createTextNode(`${comment_text}`));
@@ -52,7 +54,7 @@
 
   // 状態ボタンの出力を関数化
   function output_status(){
-    const new_p = document.createElement("td");
+    const new_p = document.createElement('td');
     sta.appendChild(new_p);
 
     let status_button = document.createElement('button');
