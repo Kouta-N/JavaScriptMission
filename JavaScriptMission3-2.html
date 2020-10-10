@@ -31,16 +31,20 @@
   </form>
 
 
+
+
 <script>
   
-  let id_num = 0;//IDの添字
+let id_num = 0;//IDの添字
 
   // IDの出力を関数化
   function outputId(id_num){
     const id_add_p = document.createElement('td');
     index.appendChild(id_add_p);
-    const id_text = document.createTextNode(`${id_num}`);
-
+    
+    console.log(id_add_p.id);
+    
+    let id_text = document.createTextNode(`${id_num}`);
     index.appendChild(id_text);
   }
 
@@ -48,7 +52,7 @@
   function outputComment(){
     const comment_add_p = document.createElement('td');
     comment.appendChild(comment_add_p);
-    const comment_text = document.getElementById('new_task').value;
+    let comment_text = document.getElementById('new_task').value;
     comment.appendChild(document.createTextNode(`${comment_text}`));
     new_task.value = ''; //コメント入力フォームの初期化
   }
@@ -57,27 +61,50 @@
   function outputStatus(){
     const sta_add_p = document.createElement('td');
     sta.appendChild(sta_add_p);
-
-    const status_button = document.createElement('button');
+    let status_button = document.createElement('button');
     status_button.innerHTML = '作業中';
-    const status_button_id = document.getElementById('sta');
+    let status_button_id = document.getElementById('sta');
     status_button_id.appendChild(status_button);
 
-    
-    const delete_button = document.createElement('button');
+    let delete_button = document.createElement('button');
     delete_button.innerHTML = '削除';
-    const delete_button_id = document.getElementById('sta');
+    let delete_button_id = document.getElementById('sta');
     delete_button_id.appendChild(delete_button);
+
+    delete_button.addEventListener('click', () => removeTask(delete_button,id_num));
   }
 
   // タスクの出力処理
-  const onclick =  document.getElementById('add');
+  const onclick = document.getElementById('add');
   onclick.addEventListener('click', function (){
-    id_num++;
+    id_num ++;
     outputId(id_num);
     outputComment();
     outputStatus();
   });
+
+
+//ボタンによるタスクの削除を関数化
+const removeTask = (delete_button , id_num) => {
+
+  const targetIndex = index.childNodes[id_num*2];
+  console.log(index.childNodes[id_num*2]);
+  targetIndex.remove();
+ 
+  const targetComment = comment.childNodes[id_num*2];
+  console.log(comment.childNodes[id_num*2]);
+  targetComment.remove();
+  
+
+  console.log(sta.childNodes[id_num*2+ id_num-1]);
+  const targetSta_sta = sta.childNodes[id_num*2+ id_num-1];
+  targetSta_sta.remove();
+
+  console.log(sta.childNodes[id_num*2+ id_num-1]);
+  const targetSta_del = sta.childNodes[id_num*2+ id_num-1];
+  targetSta_del.remove();
+
+};
 
 </script>
 
