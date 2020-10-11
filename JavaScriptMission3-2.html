@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>JavaScriptMission3-1</title>
+  <title>JavaScriptMission3-2</title>
 </head>
 
 <body>
@@ -15,12 +15,12 @@
     <input type="radio" id="fin">完了
   </form>
 
-<table>
-  <tbody>
-      <td id="index">ID</td>
-      <td id="comment">コメント</td>
-      <td id="sta">状態</td>
-  </tbody>
+<table id="todo">
+    <tr class="table_header">
+      <td>ID</td>
+      <td>コメント</td>
+      <td>状態</td>
+    </tr>
 </table>
 
   <h2>新規タスクの追加</h2>
@@ -30,83 +30,72 @@
     <input type="button" id="add" value="追加">
   </form>
 
-
-
-
 <script>
   
-let id_num = 0;//IDの添字
+let id_num = 1;//IDの添字 テーブルのIDに使用するので初期値は1にする
+let sta_id = 0;//作業中、削除のボタンを追加するためのID
 
-  // IDの出力を関数化
-  function outputId(id_num){
-    const id_add_p = document.createElement('td');
-    index.appendChild(id_add_p);
-    
-    console.log(id_add_p.id);
-    
-    let id_text = document.createTextNode(`${id_num}`);
-    index.appendChild(id_text);
-  }
+// ToDoリストテーブル要素の追加作業を関数化 //
+function outputTable(index,button_id){
+ const add_table = document.getElementById('todo');
+ const row = add_table.insertRow(-1);//引数の-1は最後の列を指定できる
+ const index_cell = row.insertCell(0);
+ const comment_cell = row.insertCell(1);
+ const sta_cell = row.insertCell(2);
+ sta_cell.setAttribute('id','sta' + `${button_id}`);//作業中、削除のボタンをappendChildするためのIDを作成
 
-  // コメントの出力を関数化
-  function outputComment(){
-    const comment_add_p = document.createElement('td');
-    comment.appendChild(comment_add_p);
-    let comment_text = document.getElementById('new_task').value;
-    comment.appendChild(document.createTextNode(`${comment_text}`));
-    new_task.value = ''; //コメント入力フォームの初期化
-  }
+ // ID出力 //
+ index_cell.innerHTML = index;
 
-  // 状態ボタンの出力を関数化
-  function outputStatus(){
-    const sta_add_p = document.createElement('td');
-    sta.appendChild(sta_add_p);
-    let status_button = document.createElement('button');
-    status_button.innerHTML = '作業中';
-    let status_button_id = document.getElementById('sta');
-    status_button_id.appendChild(status_button);
+ // コメント出力 //
+ const comment_text = document.getElementById('new_task').value;
+ comment_cell.innerHTML = comment_text;
+ new_task.value = ''; //コメント入力フォームの初期化
 
-    let delete_button = document.createElement('button');
-    delete_button.innerHTML = '削除';
-    let delete_button_id = document.getElementById('sta');
-    delete_button_id.appendChild(delete_button);
+ // ボタン出力 //
+ const status_button = document.createElement('button');
+ status_button.innerHTML = '作業中';
+ const add_button_id = document.getElementById('sta' + `${button_id}`);
+ add_button_id.appendChild(status_button);
 
-    delete_button.addEventListener('click', () => removeTask(delete_button,id_num));
-  }
+ const delete_button = document.createElement('button');
+ delete_button.innerHTML = '削除';
+ add_button_id.appendChild(delete_button);
 
-  // タスクの出力処理
-  const onclick = document.getElementById('add');
-  onclick.addEventListener('click', function (){
-    id_num ++;
-    outputId(id_num);
-    outputComment();
-    outputStatus();
-  });
+ delete_button.addEventListener('click', () => removeTask(delete_button,index));
+
+ // 要素数の調整 //
+ id_num++;//ToDoリストを1つ追加したため、IDの要素数を+1
+ sta_id++;//作業中、削除ボタンを追加したため、ボタンIDの要素数を+1
+}
 
 
 //ボタンによるタスクの削除を関数化
-const removeTask = (delete_button , id_num) => {
+const removeTask = (delete_button , index) => {
+const delete_table = document.getElementById('todo');
+delete_table.deleteRow(index);
 
-  const targetIndex = index.childNodes[id_num*2];
-  console.log(index.childNodes[id_num*2]);
-  targetIndex.remove();
- 
-  const targetComment = comment.childNodes[id_num*2];
-  console.log(comment.childNodes[id_num*2]);
-  targetComment.remove();
-  
+  // IDのふり直し //
+  for(let row_num = index; row_num < delete_table.rows.length; row_num++){
+    delete_table.rows[row_num].cells[0].innerHTML = row_num;
+  }
 
-  console.log(sta.childNodes[id_num*2+ id_num-1]);
-  const targetSta_sta = sta.childNodes[id_num*2+ id_num-1];
-  targetSta_sta.remove();
-
-  console.log(sta.childNodes[id_num*2+ id_num-1]);
-  const targetSta_del = sta.childNodes[id_num*2+ id_num-1];
-  targetSta_del.remove();
-
+id_num --;//ToDoリストを1つ削除したため、IDの要素数を-1
 };
 
+// タスクの出力処理(本文) //
+const onclick = document.getElementById('add');
+onclick.addEventListener('click', function (){
+outputTable(id_num,sta_id);
+});
+
 </script>
+
+<style>
+  .table_header{
+    text-align: center;
+  }
+</style>
 
 </body>
 </html>
