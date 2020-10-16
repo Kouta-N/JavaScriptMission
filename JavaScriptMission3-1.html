@@ -26,55 +26,55 @@
   <h2>新規タスクの追加</h2>
 
   <form>
-    <input type="text" id="new_task">
+    <input type="text" id="newTask">
     <input type="button" id="add" value="追加">
   </form>
 
 
 <script>
   
-  let id_num = 0;//IDの添字
+  let idNum = 0;//IDの添字
 
   // IDの出力を関数化
-  function outputId(id_num){
-    const id_add_p = document.createElement('td');
-    index.appendChild(id_add_p);
-    const id_text = document.createTextNode(`${id_num}`);
+  function outputId(idNum){
+    const idAddP = document.createElement('td');
+    index.appendChild(idAddP);
+    const idText  = document.createTextNode(`${idNum}`);
 
-    index.appendChild(id_text);
+    index.appendChild(idText);
   }
 
   // コメントの出力を関数化
   function outputComment(){
-    const comment_add_p = document.createElement('td');
-    comment.appendChild(comment_add_p);
-    const comment_text = document.getElementById('new_task').value;
-    comment.appendChild(document.createTextNode(`${comment_text}`));
-    new_task.value = ''; //コメント入力フォームの初期化
+    const commentAddP = document.createElement('td');
+    comment.appendChild(commentAddP);
+    const commentText = document.getElementById('newTask').value;
+    comment.appendChild(document.createTextNode(`${commentText}`));
+    newTask.value = ''; //コメント入力フォームの初期化
   }
 
   // 状態ボタンの出力を関数化
   function outputStatus(){
-    const sta_add_p = document.createElement('td');
-    sta.appendChild(sta_add_p);
+    const staAddP = document.createElement('td');
+    sta.appendChild(staAddP);
 
-    const status_button = document.createElement('button');
-    status_button.innerHTML = '作業中';
-    const status_button_id = document.getElementById('sta');
-    status_button_id.appendChild(status_button);
+    const statusButton = document.createElement('button');
+    statusButton.innerHTML = '作業中';
+    const statusButtonId = document.getElementById('sta');
+    statusButtonId.appendChild(statusButton);
 
     
-    const delete_button = document.createElement('button');
-    delete_button.innerHTML = '削除';
-    const delete_button_id = document.getElementById('sta');
-    delete_button_id.appendChild(delete_button);
+    const deleteButton = document.createElement('button');
+    deleteButton.innerHTML = '削除';
+    const deleteButtonId = document.getElementById('sta');
+    deleteButtonId.appendChild(deleteButton);
   }
 
   // タスクの出力処理
   const onclick =  document.getElementById('add');
   onclick.addEventListener('click', function (){
-    id_num++;
-    outputId(id_num);
+    idNum++;
+    outputId(idNum);
     outputComment();
     outputStatus();
   });

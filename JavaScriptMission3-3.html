@@ -3,20 +3,20 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>JavaScriptMission3-2</title>
+  <title>JavaScriptMission3-3</title>
 </head>
 
 <body>
 
   <h1>ToDoリスト</h1>
   <form>
-    <input type="radio" id="all">すべて
-    <input type="radio" id="doing">作業中
-    <input type="radio" id="fin">完了
+    <input type="radio" name="check" id="all">すべて
+    <input type="radio" name="check" id="doing">作業中
+    <input type="radio" name="check" id="fin">完了
   </form>
 
 <table id="todo">
-    <tr class="table_header">
+    <tr class="tableHeader">
       <td>ID</td>
       <td>コメント</td>
       <td>状態</td>
@@ -32,6 +32,8 @@
 
 <script>
   
+const changeTable = document.getElementsByName('check');
+changeTable[0].checked = true;  
 let idNum = 1;//IDの添字 テーブルのIDに使用するので初期値は1にする
 let staId = 0;//作業中、削除のボタンを追加するためのID
 
@@ -54,17 +56,18 @@ function outputTable(index,buttonId){
 
  // ボタン出力 //
  const statusButton = document.createElement('button');
+ statusButton.classList.add('buttonStyle');
  statusButton.innerHTML = '作業中';
  const addButtonId = document.getElementById('sta' + `${buttonId}`);
  addButtonId.appendChild(statusButton);
+ statusButton.addEventListener('click', () => changeTask(statusButton));
 
  const deleteButton = document.createElement('button');
+ deleteButton.classList.add('buttonStyle');
  deleteButton.innerHTML = '削除';
  deleteButton.setAttribute('id','deleteButton' + `${buttonId}`);
  addButtonId.appendChild(deleteButton);
-
  deleteButton.addEventListener('click', () => removeTask(deleteButton,indexCell.innerHTML));
-
 
  // 要素数の調整 //
  idNum++;//ToDoリストを1つ追加したため、IDの要素数を+1
@@ -72,21 +75,40 @@ function outputTable(index,buttonId){
 }
 
 
-//ボタンによるタスクの削除を関数化
+// ボタンによるタスクの削除を関数化 //
 const removeTask = (deleteButton,index) => {
 const deleteTable = document.getElementById('todo');
 deleteTable.deleteRow(deleteTable.rows[index].cells[0].innerHTML);
 
-  // IDのふり直し //
-  for(let rowNum = index; rowNum < deleteTable.rows.length; rowNum++){
-    deleteTable.rows[rowNum].cells[0].innerHTML = rowNum;
-  }
+// ボタンIDふり直し //
+for(let buttonId = index+1;buttonId <= deleteTable.rows.length; buttonId++){
+  let changeStatusButton = document.getElementById('statusButtonID' + `${buttonId}`);
+  changeStatusButton.setAttribute('id','statusButtonID' + `${buttonId-1}`);
+
+  let changeDeleteButton= document.getElementById('deleteButtonID' + `${buttonId}`);
+  changeDeleteButton.addEventListener('click', () => removeTask(deleteButton,index-1));
+  changeDeleteButton.setAttribute('id','deleteButtonID' + `${buttonId-1}`);
+
+}
+
+  // IDセルの番号ふり直し //
+for(let rowNum = index; rowNum < deleteTable.rows.length; rowNum++){
+  deleteTable.rows[rowNum].cells[0].innerHTML = rowNum;
+}
 
 idNum--;//ToDoリストを1つ削除したため、IDの要素数を-1
-console.log(staId);
 };
 
-// タスクの出力処理(本文) //
+// ボタンによるタスクの変更を関数化 //
+function changeTask(statusButton)  {
+   if(statusButton.innerHTML === '作業中'){
+    statusButton.innerHTML = '完了';
+   }else{
+     statusButton.innerHTML = '作業中';
+   }
+}
+
+// タスクの出力処理 //
 const onclick = document.getElementById('add');
 onclick.addEventListener('click', function (){
 outputTable(idNum,staId);
@@ -95,8 +117,15 @@ outputTable(idNum,staId);
 </script>
 
 <style>
-  .table_header{
+  .tableHeader{
     text-align: center;
+  }
+
+  .buttonStyle{
+    margin-right: 10px;
+    border-radius: 3px;
+    border:solid 1px;
+    background-color: white;
   }
 </style>
 
