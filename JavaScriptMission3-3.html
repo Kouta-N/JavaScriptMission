@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScriptMission3-3</title>
+</head>
+
+<body>
+
+  <h1>ToDoリスト</h1>
+  <form>
+    <input type="radio" name="check" id="all">すべて
+    <input type="radio" name="check" id="doing">作業中
+    <input type="radio" name="check" id="fin">完了
+  </form>
+
+<table id="todo">
+    <tr class="tableHeader">
+      <td>ID</td>
+      <td>コメント</td>
+      <td>状態</td>
+    </tr>
+</table>
+
+  <h2>新規タスクの追加</h2>
+
+  <form>
+    <input type="text" id="newTask">
+    <input type="button" id="add" value="追加">
+  </form>
+
+<script>
+  
+const changeTable = document.getElementsByName('check');
+changeTable[0].checked = true;  
+let idNum = 1;//IDの添字 テーブルのIDに使用するので初期値は1にする
+let staId = 0;//作業中、削除のボタンを追加するためのID
+
+// ToDoリストテーブル要素の追加作業を関数化 //
+function outputTable(index,buttonId){
+ const addTable = document.getElementById('todo');
+ const row = addTable .insertRow(-1);//引数の-1は最後の列を指定できる
+ const indexCell = row.insertCell(0);
+ const commentCell = row.insertCell(1);
+ const staCell = row.insertCell(2);
+ staCell.setAttribute('id','sta' + `${buttonId}`);//作業中、削除のボタンをappendChildするためのIDを作成
+
+ // ID出力 //
+ indexCell.innerHTML = index;
+
+ // コメント出力 //
+ const commentText = document.getElementById('newTask' ).value;
+ commentCell.innerHTML = commentText;
+ newTask.value = ''; //コメント入力フォームの初期化
+
+ // ボタン出力 //
+ const statusButton = document.createElement('button');
+ statusButton.classList.add('buttonStyle');
+ statusButton.innerHTML = '作業中';
+ const addButtonId = document.getElementById('sta' + `${buttonId}`);
+ addButtonId.appendChild(statusButton);
+ statusButton.addEventListener('click', () => changeTask(statusButton));
+
+ const deleteButton = document.createElement('button');
+ deleteButton.classList.add('buttonStyle');
+ deleteButton.innerHTML = '削除';
+ deleteButton.setAttribute('id','deleteButton' + `${buttonId}`);
+ addButtonId.appendChild(deleteButton);
+ deleteButton.addEventListener('click', () => removeTask(deleteButton,indexCell.innerHTML));
+
+ // 要素数の調整 //
+ idNum++;//ToDoリストを1つ追加したため、IDの要素数を+1
+ staId++;//作業中、削除ボタンを追加したため、ボタンIDの要素数を+1
+}
+
+
+// ボタンによるタスクの削除を関数化 //
+const removeTask = (deleteButton,index) => {
+const deleteTable = document.getElementById('todo');
+deleteTable.deleteRow(deleteTable.rows[index].cells[0].innerHTML);
+
+// ボタンIDふり直し //
+for(let buttonId = index+1;buttonId <= deleteTable.rows.length; buttonId++){
+  let changeStatusButton = document.getElementById('statusButtonID' + `${buttonId}`);
+  changeStatusButton.setAttribute('id','statusButtonID' + `${buttonId-1}`);
+
+  let changeDeleteButton= document.getElementById('deleteButtonID' + `${buttonId}`);
+  changeDeleteButton.addEventListener('click', () => removeTask(deleteButton,index-1));
+  changeDeleteButton.setAttribute('id','deleteButtonID' + `${buttonId-1}`);
+
+}
+
+  // IDセルの番号ふり直し //
+for(let rowNum = index; rowNum < deleteTable.rows.length; rowNum++){
+  deleteTable.rows[rowNum].cells[0].innerHTML = rowNum;
+}
+
+idNum--;//ToDoリストを1つ削除したため、IDの要素数を-1
+};
+
+// ボタンによるタスクの変更を関数化 //
+function changeTask(statusButton)  {
+   if(statusButton.innerHTML === '作業中'){
+    statusButton.innerHTML = '完了';
+   }else{
+     statusButton.innerHTML = '作業中';
+   }
+}
+
+// タスクの出力処理 //
+const onclick = document.getElementById('add');
+onclick.addEventListener('click', ()=>{
+outputTable(idNum,staId);
+});
+
+</script>
+
+<style>
+  .tableHeader{
+    text-align: center;
+  }
+
+  .buttonStyle{
+    margin-right: 10px;
+    border-radius: 3px;
+    border:solid 1px;
+    background-color: white;
+  }
+</style>
+
+</body>
+</html>

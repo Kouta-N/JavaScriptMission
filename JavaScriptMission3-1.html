@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScriptMission3-1</title>
+</head>
+
+<body>
+
+  <h1>ToDoリスト</h1>
+  <form>
+    <input type="radio" id="all">すべて
+    <input type="radio" id="doing">作業中
+    <input type="radio" id="fin">完了
+  </form>
+
+<table>
+  <tbody>
+      <td id="index">ID</td>
+      <td id="comment">コメント</td>
+      <td id="sta">状態</td>
+  </tbody>
+</table>
+
+  <h2>新規タスクの追加</h2>
+
+  <form>
+    <input type="text" id="newTask">
+    <input type="button" id="add" value="追加">
+  </form>
+
+
+<script>
+  
+  let idNum = 0;//IDの添字
+
+  // IDの出力を関数化
+  function outputId(idNum){
+    const idAddP = document.createElement('td');
+    index.appendChild(idAddP);
+    const idText  = document.createTextNode(`${idNum}`);
+
+    index.appendChild(idText);
+  }
+
+  // コメントの出力を関数化
+  function outputComment(){
+    const commentAddP = document.createElement('td');
+    comment.appendChild(commentAddP);
+    const commentText = document.getElementById('newTask').value;
+    comment.appendChild(document.createTextNode(`${commentText}`));
+    newTask.value = ''; //コメント入力フォームの初期化
+  }
+
+  // 状態ボタンの出力を関数化
+  function outputStatus(){
+    const staAddP = document.createElement('td');
+    sta.appendChild(staAddP);
+
+    const statusButton = document.createElement('button');
+    statusButton.innerHTML = '作業中';
+    const statusButtonId = document.getElementById('sta');
+    statusButtonId.appendChild(statusButton);
+
+    
+    const deleteButton = document.createElement('button');
+    deleteButton.innerHTML = '削除';
+    const deleteButtonId = document.getElementById('sta');
+    deleteButtonId.appendChild(deleteButton);
+  }
+
+  // タスクの出力処理
+  const onclick =  document.getElementById('add');
+  onclick.addEventListener('click', function (){
+    idNum++;
+    outputId(idNum);
+    outputComment();
+    outputStatus();
+  });
+
+</script>
+
+</body>
+</html>

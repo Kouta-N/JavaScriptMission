@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta lang="ja">
+  <meta charset="UTF-8">
+  <title>TaskGerne Set</title>
+</head>
+
+<body>
+  <script>
+
+  let task_gerne_array = [
+    ['机を片づける','掃除'],
+    ['牛乳を買う','買い物'],
+    ['散歩する','散歩'],
+  ];
+
+  const column = 0;                   //2次元配列の列を指定するための定数
+  count = task_gerne_array.length;    //配列の列数を記録するための変数
+  flag = false;                       //終了が入力された場合、処理を全て終了するためのフラグ
+  print_flag = true;                  //trueならタスク一覧を表示するためのフラグ
+
+    while(flag == false){
+
+      if(print_flag == true){
+        console.log('==============================\n現在持っているタスクの一覧\n==============================\n');
+        for(let row = 0;row < count;row++){
+          console.log("%d : [内容]%s、[ジャンル]%s\n",row,task_gerne_array[row][column],task_gerne_array[row][column+1]);
+        }
+        print_flag = false;
+      }
+
+          let command = prompt("「確認,追加,削除,終了」の4つのいずれかを入力してください");
+
+          if(command == "終了"){
+            flag = true;
+            break;
+
+          }else if(command == "追加"){
+            count ++;
+            let new_task = prompt("タスクを入力してください");
+            let new_gerne = prompt("ジャンルを入力してください");
+            task_gerne_array.push([new_task,new_gerne]);
+            print_flag = true;
+        } 
+
+    }
+
+
+  </script>
+</body>
+
+</head>
+</html>

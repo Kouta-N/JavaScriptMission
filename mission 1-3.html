@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta lang="ja">
+  <meta charset="UTF-8">
+  <title>TaskSet</title>
+</head>
+
+<body>
+  <script>
+
+  let task_array = ['掃除','買い物','散歩'];
+  let count = task_array.length;                  //配列の要素数を記録するための変数
+  let flag = false;                           //終了が入力された場合、処理を全て終了するためのフラグ
+  let print_flag = true;                          //trueならタスク一覧を表示するためのフラグ
+
+    while(flag == false){
+
+      if(print_flag == true){
+        console.log('==============================\n現在持っているタスクの一覧\n==============================\n');
+        for(let i = 0;i < count;i++){
+          console.log("%d : %s\n",i,task_array[i]);
+        }
+        print_flag = false;
+      }
+
+          let command = prompt("「確認,追加,削除,終了」の4つのいずれかを入力してください");
+
+          if(command == "終了"){
+            flag = true;
+            break;
+
+          }else if(command == "追加"){
+            let new_task = prompt("タスクを入力してください");
+            task_array.push(new_task);
+            count ++;
+            print_flag = true;
+        } 
+
+    }
+
+
+  </script>
+</body>
+
+</head>
+</html>

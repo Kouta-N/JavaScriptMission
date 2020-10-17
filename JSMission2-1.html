@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang = 'ja'>
+
+<head>
+  <meta charset='UTF-8'>
+  <title>FizzBuzz byDOM</title>
+</head>
+
+<body>
+
+  <h1>FizzBuzz問題</h1>
+
+    <table>
+      <tbody>
+        
+        <tr>
+          <td>FizzNum:</td>
+          <td><input type = 'input' placeholder = '整数値を入力してください' id = 'Fizz' size = '22' maxlength = '100' ></td><br></td>
+        </tr>
+        
+        <tr>
+          <td>BuzzNum:</td>
+          <td><input type = 'input' placeholder = '整数値を入力してください' id = 'Buzz' size = '22' maxlength = '100' ></td><br></td>
+        </tr>
+
+        <tr>
+        <td> <input type = 'button' class = 'bu' id = 'button' value = '実行'> </td>
+        </tr>
+
+      </tbody>
+    </table>
+      
+
+    <h4>【出力】</h4>
+    <div id = 'out'></div>
+
+  <script>
+    'use strict';
+
+    const onclick =  document.getElementById('button');
+
+    onclick.addEventListener('click', function (){
+
+      const start = 1; //FizzBuzz問題をどこから表示するかを表す定数
+      const end = 100; //FizzBuzz問題をどこまで表示するかを表す定数
+      let output_flag = true; //FizzBuzz問題の出力を行うかどうか判定するフラグ
+
+      const FizzNum = document.getElementById('Fizz').value;
+      const BuzzNum = document.getElementById('Buzz').value;
+      
+      //innerHTML 出力要素を定義//
+      const err = document.getElementById('out');
+      const out_p = document.createElement('p');
+
+      //innerHTML 初期化作業//
+      err.innerHTML = '';
+      out_p.innerHTML = '';
+
+      //出力作業を関数化//
+      function output_child(text){
+        out_p.appendChild(text);
+        out.appendChild(out_p);
+        
+        out_p.appendChild(document.createElement( 'br' ) );
+        out.appendChild(out_p);
+      }
+
+      function output_err(){
+        err.innerHTML = '整数値を入力してください';
+        output_flag = false;
+      }
+
+      if (FizzNum === '' || BuzzNum === ''){
+        output_err();
+      
+      }else if (FizzNum.match(/^[0-9]+\.[0-9]+$/) || BuzzNum.match(/^[0-9]+\.[0-9]+$/)) {
+        output_err();
+      
+      }else if (isNaN( Number(FizzNum) ) || isNaN( Number(BuzzNum) ) ) {
+        output_err();
+      }
+
+
+      if(output_flag){
+
+        for (let i = start ; i < end ; i ++){
+
+          if (i % FizzNum === 0 && i % BuzzNum === 0 ){
+            const text = document.createTextNode(`FizzBuzz ${i}`);
+            output_child(text);
+
+          } else if (i % FizzNum === 0) {
+              const text = document.createTextNode(`Fizz ${i}`);
+              output_child(text);
+        
+          } else if (i % BuzzNum === 0) { 
+              const text = document.createTextNode(`Buzz ${i}`);
+              output_child(text);
+          }
+
+        }
+      }
+
+    });
+
+    
+    
+  </script>
+
+
+  <style>
+    table{
+           margin-top: -50px;
+         }
+
+    .in {
+         font-size: 16px;
+         font-weight: normal;
+        }
+
+    .bu {
+         background: linear-gradient(to top, white 0%,grey 340%);
+         font-weight: bold;
+        }
+           
+  </style>
+
+</body>
+</html>
